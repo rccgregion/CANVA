@@ -18,9 +18,19 @@ import { EvidencePanel } from './components/panels/EvidencePanel';
 import { NewInvestigationModal } from './components/modals/NewInvestigationModal';
 import { SettingsModal } from './components/modals/SettingsModal';
 import { DeepImproveModal } from './components/modals/DeepImproveModal';
+import { PrivacyPolicyView } from './components/legal/PrivacyPolicyView';
 
 const DashboardContent: React.FC = () => {
   const { workspaceMode } = useREA();
+
+  const isPrivacyRoute =
+    typeof window !== 'undefined' &&
+    (['/privacy', '/privacy/', '/privacy-policy'].includes(window.location.pathname) ||
+      window.location.hash === '#privacy');
+
+  if (isPrivacyRoute) {
+    return <PrivacyPolicyView standalone />;
+  }
 
   const isPureCanvaMode = workspaceMode === 'canva' || workspaceMode === 'canva_home';
 

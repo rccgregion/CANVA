@@ -692,6 +692,17 @@ async function startServer() {
     }
   });
 
+  // 10. Privacy Policy HTML routes (/privacy, /privacy-policy, /privacy.html)
+  app.get(['/privacy', '/privacy/', '/privacy-policy', '/privacy.html'], (_req: Request, res: Response) => {
+    const publicPrivacyPath = path.resolve(__dirname, 'public', 'privacy', 'index.html');
+    const distPrivacyPath = path.resolve(__dirname, 'dist', 'privacy', 'index.html');
+    const targetPath = fs.existsSync(publicPrivacyPath) ? publicPrivacyPath : distPrivacyPath;
+    if (fs.existsSync(targetPath)) {
+      return res.sendFile(targetPath);
+    }
+    return res.status(404).send('Privacy Policy not found');
+  });
+
   // Mount Vite middleware in dev, or serve static dist/ in production
   if (process.env.NODE_ENV !== 'production') {
     const { createServer: createViteServer } = await import('vite');

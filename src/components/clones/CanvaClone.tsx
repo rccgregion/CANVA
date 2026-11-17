@@ -70,7 +70,9 @@ import {
   FlaskConical,
   RefreshCw,
   ExternalLink,
+  ShieldCheck,
 } from 'lucide-react';
+import { PrivacyPolicyView, PRIVACY_POLICY_CANONICAL_URL } from '../legal/PrivacyPolicyView';
 import {
   CanvasItem,
   CanvaPage,
@@ -202,6 +204,7 @@ export const CanvaClone: React.FC = () => {
   const [isResizeModalOpen, setIsResizeModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isShortcutsModalOpen, setIsShortcutsModalOpen] = useState(false);
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
   const [isPresentMode, setIsPresentMode] = useState(false);
   const [showPresentNotes, setShowPresentNotes] = useState(false);
   const [isGridView, setIsGridView] = useState(false);
@@ -2219,6 +2222,16 @@ export default function MyCanvaDesign() {
                 </button>
                 <button
                   onClick={() => {
+                    setIsPrivacyModalOpen(true);
+                    setIsMoreMenuOpen(false);
+                  }}
+                  className="w-full px-3 py-2 text-left hover:bg-slate-50 flex items-center justify-between cursor-pointer"
+                >
+                  <span>Privacy Policy</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-slate-500" />
+                </button>
+                <button
+                  onClick={() => {
                     setWorkspaceMode('chat');
                     setIsMoreMenuOpen(false);
                   }}
@@ -2410,6 +2423,27 @@ export default function MyCanvaDesign() {
                           {pinterestError}
                         </div>
                       )}
+
+                      <div className="pt-1 border-t border-rose-200/60 flex items-center justify-between text-[10px] text-slate-500">
+                        <button
+                          type="button"
+                          onClick={() => setIsPrivacyModalOpen(true)}
+                          className="hover:text-[#e60023] underline cursor-pointer"
+                        >
+                          Privacy Policy
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            navigator.clipboard.writeText(PRIVACY_POLICY_CANONICAL_URL);
+                            showToast('Copied Privacy Policy URL');
+                          }}
+                          className="font-mono hover:text-slate-800 cursor-pointer"
+                          title={PRIVACY_POLICY_CANONICAL_URL}
+                        >
+                          Copy URL
+                        </button>
+                      </div>
                     </div>
                   )}
 
@@ -5696,6 +5730,18 @@ export default function MyCanvaDesign() {
               <div>{activePage.notes || 'No presenter notes for this slide.'}</div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* PRIVACY POLICY MODAL */}
+      {isPrivacyModalOpen && (
+        <div
+          onClick={() => setIsPrivacyModalOpen(false)}
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+        >
+          <div onClick={(e) => e.stopPropagation()} className="w-full max-w-2xl">
+            <PrivacyPolicyView onClose={() => setIsPrivacyModalOpen(false)} />
+          </div>
         </div>
       )}
 
