@@ -1,0 +1,6 @@
+{
+  "name": "REA Agent Workspace",
+  "description": "Reverse Engineer Anything (REA) integration and MCP agent workbench.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
